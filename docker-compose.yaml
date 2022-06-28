@@ -1,0 +1,38 @@
+version: '3.7'
+
+
+services:
+  web:
+    build:
+      context: app/dockerFiles/nginx
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
+    ports:
+      - "8080:80"
+    environment:
+      XDEBUG_CONFIG: remote_host=${HOST_IP:-host.docker.internal}
+    volumes:
+      - ./:/projectX
+    depends_on:
+      - php
+      - mysql
+
+  php:
+    build: ./app/DockerFiles/php
+    container_name: php_test
+    volumes:
+      - ./:/projectX
+    expose:
+      - 9000
+
+
+  mysql:
+    #    uncommented this line if you have apple silicon proc
+    platform: linux/amd64
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./app/db/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
