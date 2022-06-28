@@ -11,7 +11,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
- * @ORM\Table(indexes={@Index(name="published_at_index", columns={"published_at"})})
+ * @ORM\Table(indexes={
+ *     @Index(name="published_at_index", columns={"published_at"}),
+ *     @Index(name="category_index", columns={"category"})
+ * })
  * @ORM\HasLifecycleCallbacks()
  */
 class Article
